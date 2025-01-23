@@ -26,3 +26,35 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE OWNER AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# RUN LOINC UNBUTU
+-	Tải và cài đặt VMWare workstation
+-	Tải bộ cài Ubuntu trên trang chủ và cài đặt lên VMWare (hoặc có thể cài song song cùng với windows)
+-	Yêu cầu tối thiểu 20 GB ổ cứng và 4 GB RAM
+-	Cài đặt môi trường dựa vào các thông tin sau trong file readme.md
+          * Install Node.js (version 14 is what we are currently using, but it should work with later versions)
+            Clone the lforms repository and cd to its directory
+          * source bashrc.lforms   # (make sure node dir is available at ~/)
+          * npm ci
+          * source bashrc.lforms # to add node_modules/.bin to your path
+          * npm run build # build both FHIR libs and LHC-Forms web component
+          * npm run start # starts the app we use for testing
+          * npm run test # runs the unit tests and e2e tests
+
+      +	Git 
+      +	nodejs version 18 (bắt buộc vì angular CLI đã được cập nhật và yêu cầu tối thiểu phiên bản nodejs 18)
+      + npm phiên bản mới nhất cũng được
+      +	***sua lại package build:version: ""build:version": "node -e \"require('fs').writeFileSync('src/version.json', JSON.stringify({lformsVersion: require('./package.json').version}))\"","
+      +	Xóa thư mục dist, node_modules, package-lock.json
+      +	project cần build lần đầu trước khi chạy, build lần đâu bằng lệnh "npm run build"
+      + chạy project bằng lệnh "npm run start"
+
+-	Tăng giới hạn watchers trên ubuntu bằng cách sau:
+Mở terminal và chạy những lệnh sau:
+cat /proc/sys/fs/inotify/max_user_watches (xem giới hạn watchers hiện tại)
+sudo sysctl fs.inotify.max_user_watches=524288 (set số lượng watchers mới)
+sudo nano /etc/sysctl.conf (mở file sysctl.conf)
+fs.inotify.max_user_watches=524288 (dán thêm dòng lệnh này, sau đó ấn Ctrl O => enter để lưu, Ctrl X để thoát text editor)
+sudo sysctl -p (áp dụng cấu hình mà không cần khởi động lại máy)
+-	Chạy dự án thành công sau khi thực hiện các bước trên
+-	Sau khi truy cập localhost:4200 sẽ tự redirect sang Test page
+
